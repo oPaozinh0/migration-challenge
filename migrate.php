@@ -1,4 +1,4 @@
-<?php
+<?php header("Content-type: text/html; charset=utf-8");
 /*
   Descrição do Desafio:
     Você precisa realizar uma migração dos dados fictícios que estão na pasta <dados_sistema_legado> para a base da clínica fictícia MedicalChallenge.
@@ -16,7 +16,7 @@ include "./lib.php";
 $separator = ';';
 
 // Conexão com o banco da clínica fictícia:
-$connMedical = mysqli_connect("localhost:3307", "root", "35622381", "MedicalChallenge")
+$connMedical = mysqli_connect("localhost:3306", "root", "35622381", "MedicalChallenge")
   or die("Não foi possível conectar os servidor MySQL: MedicalChallenge\n");
 
 // Informações de Inicio da Migração:
@@ -33,18 +33,20 @@ if((!empty($filepath)) &&(!empty($filepath2))){
 
 
   // Importacao dos convenios e procedimentos
-  if ($agen === false){
+  if($agen === false){
     echo "Arquivo nao encontrado";
     exit();
   }else{
     fgetcsv($agen,0,$separator);
 
     //convenios
-    while (($line2 = fgetcsv($agen,0,$separator)) !== false){
+    while(($line2 = fgetcsv($agen,0,$separator)) !== false){
       $conv    = $line2[10];
     
+      //Prevenção de adicionar novamente um convenio
       $prevConv = "SELECT id FROM convenios WHERE nome = '".$conv."'";
       $prevConv = $connMedical->query($prevConv);
+      //Comparação para se não houver dados iguais, fazer a inserção
       if($prevConv->num_rows > 0){
         continue;
       }else{
@@ -56,12 +58,12 @@ if((!empty($filepath)) &&(!empty($filepath2))){
     //procedimentos
     rewind($agen);
     fgetcsv($agen,0,$separator);
-    while (($line2 = fgetcsv($agen,0,$separator)) !== false){
+    while(($line2 = fgetcsv($agen,0,$separator)) !== false){
       $proc = $line2[11];
-    
+      //Prevenção de adicionar novamente um procedimento
       $prevProc = "SELECT id FROM procedimentos WHERE nome = '".$proc."'";
       $prevProc = $connMedical->query($prevProc);
-
+      //Comparação para se não houver dados iguais, fazer a inserção
       if($prevProc->num_rows > 0){
         continue;
       }else{
@@ -73,12 +75,13 @@ if((!empty($filepath)) &&(!empty($filepath2))){
     //profissionais
     rewind($agen);
     fgetcsv($agen,0,$separator);
-    while (($line2 = fgetcsv($agen,0,$separator)) !== false){
+    while(($line2 = fgetcsv($agen,0,$separator)) !== false){
       $prof = $line2[8];
 
-      $prevProf = "SELECT id FROM profissionais WHERE nome = '".$prof."'";
+      //Prevenção de adicionar novamente um profissional
+      $prevProf = "SELECT id FROM profissionais WHERE nome LIKE '%$prof%'";
       $prevProf = $connMedical->query($prevProf);
-
+      //Comparação para se não houver dados iguais, fazer a inserção
       if($prevProf->num_rows > 0){
         continue;
       }else{
@@ -94,7 +97,7 @@ if((!empty($filepath)) &&(!empty($filepath2))){
   }else{
     fgetcsv($pacientes,0,$separator);
     
-    while (($line = fgetcsv($pacientes,0,$separator)) !== false){
+    while(($line = fgetcsv($pacientes,0,$separator)) !== false){
       $codp    = $line[0];
       $nomep   = $line[1];
       $date    = str_replace('/', '-',$line[2]);
@@ -114,11 +117,12 @@ if((!empty($filepath)) &&(!empty($filepath2))){
       $convp   = $line[9];
       $obsp    = $line[10];
 
-      //pacientes
+      //Prevenção de adicionar novamente um paciente
       $prevPac = "SELECT id FROM pacientes WHERE cpf = '".$cpfp."'";
       $prevPac = $connMedical->query($prevPac);
-
-      if ($prevPac->num_rows > 0){
+      
+      //Comparação para se não houver dados iguais, fazer a inserção
+      if($prevPac->num_rows > 0){
         continue;
       }else{
         $connMedical->query("INSERT INTO pacientes (nome, sexo, nascimento, cpf, rg, id_convenio, cod_referencia) VALUES ('".$nomep."', '".$sexp."', '".$dtnp."', '".$cpfp."', '".$rgp."', '".$idconvp."', '".$codp."')");
@@ -126,14 +130,15 @@ if((!empty($filepath)) &&(!empty($filepath2))){
     };
   };
 
-  if ($agen === false){
+  //Importação de agendamentos
+  if($agen === false){
     echo "Arquivo nao encontrado";
     exit();
   }else{
     rewind($agen);
     fgetcsv($agen,0,$separator);
   
-    while (($line2 = fgetcsv($agen,0,$separator)) !== false){
+    while(($line2 = fgetcsv($agen,0,$separator)) !== false){
       $desc    = $line2[1];
       $dia     = $line2[2];
 
@@ -154,7 +159,7 @@ if((!empty($filepath)) &&(!empty($filepath2))){
       $sqll = $connMedical->query("SELECT id FROM pacientes WHERE cod_referencia = '".$line2[5]."'");
       $codpaciente = $sqll->fetch_array()[0];
       
-      $sqll = $connMedical->query("SELECT id FROM profissionais WHERE nome = '".$line2[8]."'");
+      $sqll = $connMedical->query("SELECT id FROM profissionais WHERE nome LIKE '%$line2[8]%'");
       $codprof = $sqll->fetch_array()[0];
       
       $sqll = $connMedical->query("SELECT id FROM convenios WHERE nome = '".$line2[10]."'");
@@ -162,15 +167,24 @@ if((!empty($filepath)) &&(!empty($filepath2))){
 
       $sqll = $connMedical->query("SELECT id FROM procedimentos WHERE nome = '".$line2[11]."'");
       $codproc = $sqll->fetch_array()[0];
-    
-      $connMedical->query("INSERT INTO agendamentos (id_paciente, id_profissional, dh_inicio, dh_fim, id_convenio, id_procedimento, observacoes) VALUES ('".$codpaciente."', '".$codprof."', '".$dhinicio."', '".$dhfinal."', '".$codconv."', '".$codproc."', '".$desc."')");
-      
+
+      //Prevenção de adicionar novamente um agendamento
+      $prevAgen = "SELECT id FROM agendamentos WHERE id_paciente = '".$codpaciente."' AND dh_inicio = '".$dhinicio."'";
+      $prevAgen = $connMedical->query($prevAgen);
+      //Comparação para se não houver dados iguais, fazer a inserção
+      if($prevAgen->num_rows > 0){
+        continue;
+      }else{
+        $connMedical->query("INSERT INTO agendamentos (id_paciente, id_profissional, dh_inicio, dh_fim, id_convenio, id_procedimento, observacoes) VALUES ('".$codpaciente."', '".$codprof."', '".$dhinicio."', '".$dhfinal."', '".$codconv."', '".$codproc."', '".$desc."')");
+      }
     }
   }
-};
+  // Encerrando as conexões:
+  $connMedical->close();
 
-// Encerrando as conexões:
-$connMedical->close();
+  system('mysqldump --skip-lock-tables --routines --add-drop-table --extended-insert -u root -p35622381 --host=localhost --port=3306 medicalchallenge > dump/dumpMedicalChallenge'.date('Y-m-d-H_i_s').'.sql');
+  print_r("Novo DUMP gerado em: ".dateNow().".\n");
+};
 
 // Informações de Fim da Migração:
 echo "Fim da Migração: " . dateNow() . ".\n";

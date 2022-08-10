@@ -1,13 +1,13 @@
--- MySQL dump 10.13  Distrib 5.5.62, for Win64 (AMD64)
+-- MariaDB dump 10.19  Distrib 10.8.3-MariaDB, for Win64 (AMD64)
 --
 -- Host: localhost    Database: medicalchallenge
 -- ------------------------------------------------------
--- Server version	5.5.5-10.8.3-MariaDB
+-- Server version	10.8.3-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -40,7 +40,7 @@ CREATE TABLE `agendamentos` (
   CONSTRAINT `agendamento_id_paciente` FOREIGN KEY (`id_paciente`) REFERENCES `pacientes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `agendamento_id_procedimento` FOREIGN KEY (`id_procedimento`) REFERENCES `procedimentos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `agendamento_id_profissional` FOREIGN KEY (`id_profissional`) REFERENCES `profissionais` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -49,7 +49,29 @@ CREATE TABLE `agendamentos` (
 
 LOCK TABLES `agendamentos` WRITE;
 /*!40000 ALTER TABLE `agendamentos` DISABLE KEYS */;
-INSERT INTO `agendamentos` VALUES (1,1,1,'2021-02-01 08:30:00','2021-02-01 08:45:00',1,1,'primeira consulta do paciente'),(2,5,2,'2021-02-01 08:30:00','2021-02-01 09:00:00',2,1,'100'),(3,2,1,'2021-02-01 14:00:00','2021-02-01 14:30:00',3,1,'não cobrar'),(4,7,1,'2021-02-03 17:15:00','2021-02-03 18:00:00',3,1,''),(5,6,2,'2021-02-04 13:30:00','2021-02-04 13:50:00',1,1,'paciente com dores fortes'),(6,8,2,'2021-02-12 14:20:00','2021-02-12 15:00:00',1,1,'parente do Dr. Lucas'),(7,2,1,'2021-02-12 14:25:00','2021-02-12 14:45:00',3,1,'xxx'),(8,3,2,'2021-03-07 15:00:00','2021-03-07 15:30:00',1,1,''),(9,5,1,'2021-03-08 10:15:00','2021-03-08 11:00:00',2,2,''),(10,7,2,'2021-03-21 09:10:00','2021-03-21 10:30:00',3,1,''),(11,1,2,'2021-03-22 11:00:00','2021-03-22 11:30:00',1,2,''),(12,3,1,'2021-03-22 11:10:00','2021-03-22 11:50:00',1,1,'paciente indicado pela filha do dr.'),(13,5,1,'2021-06-04 09:00:00','2021-06-04 09:45:00',2,1,''),(14,4,2,'2021-06-05 17:00:00','2021-06-05 17:25:00',2,1,'…'),(15,4,1,'2021-06-15 17:15:00','2021-06-15 18:00:00',2,3,''),(16,6,1,'2021-06-28 11:00:00','2021-06-28 11:30:00',1,2,'X-x-x-x'),(17,9,1,'2021-08-06 08:30:00','2021-08-06 08:45:00',2,1,''),(18,1,2,'2021-08-16 10:15:00','2021-08-16 11:00:00',1,3,'dores de cabeça muito fortes'),(19,8,2,'2021-08-19 08:30:00','2021-08-19 09:00:00',1,1,'queixa de dor na coluna');
+INSERT INTO `agendamentos` VALUES
+(1,1,85217,'2021-05-12 11:15:00','2021-05-12 11:30:00',1,1,'Primeira consulta do paciente.'),
+(2,1,85217,'2021-05-14 08:00:00','2021-05-14 08:30:00',1,2,'Retorno do paciente.'),
+(3,3,85218,'2021-06-01 14:30:00','2021-06-01 14:45:00',4,3,'Acompanhamento de rotina.'),
+(4,4,85218,'2021-02-01 08:30:00','2021-02-01 08:45:00',5,1,'primeira consulta do paciente'),
+(5,8,85217,'2021-02-01 08:30:00','2021-02-01 09:00:00',6,1,'100'),
+(6,5,85218,'2021-02-01 14:00:00','2021-02-01 14:30:00',1,1,'nÃ£o cobrar'),
+(7,10,85218,'2021-02-03 17:15:00','2021-02-03 18:00:00',1,1,''),
+(8,9,85217,'2021-02-04 13:30:00','2021-02-04 13:50:00',5,1,'paciente com dores fortes'),
+(9,11,85217,'2021-02-12 14:20:00','2021-02-12 15:00:00',5,1,'parente do Dr. Lucas'),
+(10,5,85218,'2021-02-12 14:25:00','2021-02-12 14:45:00',1,1,'xxx'),
+(11,6,85217,'2021-03-07 15:00:00','2021-03-07 15:30:00',5,1,''),
+(12,8,85218,'2021-03-08 10:15:00','2021-03-08 11:00:00',6,2,''),
+(13,10,85217,'2021-03-21 09:10:00','2021-03-21 10:30:00',1,1,''),
+(14,4,85217,'2021-03-22 11:00:00','2021-03-22 11:30:00',5,2,''),
+(15,6,85218,'2021-03-22 11:10:00','2021-03-22 11:50:00',5,1,'paciente indicado pela filha do dr.'),
+(16,8,85218,'2021-06-04 09:00:00','2021-06-04 09:45:00',6,1,''),
+(17,7,85217,'2021-06-05 17:00:00','2021-06-05 17:25:00',6,1,'â€¦'),
+(18,7,85218,'2021-06-15 17:15:00','2021-06-15 18:00:00',6,3,''),
+(19,9,85218,'2021-06-28 11:00:00','2021-06-28 11:30:00',5,2,'X-x-x-x'),
+(20,12,85218,'2021-08-06 08:30:00','2021-08-06 08:45:00',6,1,''),
+(21,4,85217,'2021-08-16 10:15:00','2021-08-16 11:00:00',5,3,'dores de cabeÃ§a muito fortes'),
+(22,11,85217,'2021-08-19 08:30:00','2021-08-19 09:00:00',5,1,'queixa de dor na coluna');
 /*!40000 ALTER TABLE `agendamentos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -65,7 +87,7 @@ CREATE TABLE `convenios` (
   `nome` varchar(100) NOT NULL,
   `descricao` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,7 +96,12 @@ CREATE TABLE `convenios` (
 
 LOCK TABLES `convenios` WRITE;
 /*!40000 ALTER TABLE `convenios` DISABLE KEYS */;
-INSERT INTO `convenios` VALUES (1,'Hospital',NULL),(2,'Migração',NULL),(3,'Particular',NULL);
+INSERT INTO `convenios` VALUES
+(1,'Particular','Convênio Particular (Padrão)'),
+(2,'DevMed','Convênio da Empresa Dev'),
+(4,'MigraMed','Convênio dos Funcionário de Migração da Empresa Dev'),
+(5,'Hospital',NULL),
+(6,'MigraÃ§Ã£o',NULL);
 /*!40000 ALTER TABLE `convenios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -97,7 +124,7 @@ CREATE TABLE `pacientes` (
   PRIMARY KEY (`id`),
   KEY `paciente_id_convenio_idx` (`id_convenio`),
   CONSTRAINT `paciente_id_convenio` FOREIGN KEY (`id_convenio`) REFERENCES `convenios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -106,7 +133,19 @@ CREATE TABLE `pacientes` (
 
 LOCK TABLES `pacientes` WRITE;
 /*!40000 ALTER TABLE `pacientes` DISABLE KEYS */;
-INSERT INTO `pacientes` VALUES (1,'Rúben Rebelo César','Masculino','1990-05-02','908.394.690-80','27.046.463-3',1,'10268'),(2,'Lázaro Goulart Camarinho','Masculino','1983-06-04','095.805.480-05','25.903.805-2',3,'10269'),(3,'Gabrielly Sesimbra Candeias','Feminino','1967-12-12','207.182.310-90','41.845.430-9',1,'10270'),(4,'Hernâni Fidalgo Brito','Masculino','1975-10-14','307.522.380-86','42.896.829-6',2,'10271'),(5,'Isaac Severiano Nunes','Masculino','1966-04-15','007.217.650-41','49.040.121-1',2,'10272'),(6,'Amélie Azenha Fontoura','Feminino','1982-02-17','610.800.760-50','26.659.290-9',1,'10274'),(7,'Joel Medina Covilhã','Masculino','1956-10-22','468.052.020-51','13.060.699-6',3,'10275'),(8,'Lorenzo Milheirão Remígio','Masculino','1972-09-29','247.294.840-96','45.056.413-7',1,'10276'),(9,'Gabriella Fialho Feijó','Feminino','1988-07-16','454.421.590-00','42.395.070-8',2,'10277');
+INSERT INTO `pacientes` VALUES
+(1,'Paciente de Testes','Masculino','1989-05-12','000.000.000-00','00000-0',1,NULL),
+(2,'Fulano de Tal','Masculino','1974-06-19','111.111.111-22','11111-2',1,NULL),
+(3,'Ciclano de Tal','Masculino','2001-12-25','222.222.222-33','22222-3',4,NULL),
+(4,'RÃºben Rebelo CÃ©sar','Masculino','1990-05-02','908.394.690-80','27.046.463-3',5,'10268'),
+(5,'LÃ¡zaro Goulart Camarinho','Masculino','1983-06-04','095.805.480-05','25.903.805-2',1,'10269'),
+(6,'Gabrielly Sesimbra Candeias','Feminino','1967-12-12','207.182.310-90','41.845.430-9',5,'10270'),
+(7,'HernÃ¢ni Fidalgo Brito','Masculino','1975-10-14','307.522.380-86','42.896.829-6',6,'10271'),
+(8,'Isaac Severiano Nunes','Masculino','1966-04-15','007.217.650-41','49.040.121-1',6,'10272'),
+(9,'AmÃ©lie Azenha Fontoura','Feminino','1982-02-17','610.800.760-50','26.659.290-9',5,'10274'),
+(10,'Joel Medina CovilhÃ£','Masculino','1956-10-22','468.052.020-51','13.060.699-6',1,'10275'),
+(11,'Lorenzo MilheirÃ£o RemÃ­gio','Masculino','1972-09-29','247.294.840-96','45.056.413-7',5,'10276'),
+(12,'Gabriella Fialho FeijÃ³','Feminino','1988-07-16','454.421.590-00','42.395.070-8',6,'10277');
 /*!40000 ALTER TABLE `pacientes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -131,7 +170,10 @@ CREATE TABLE `procedimentos` (
 
 LOCK TABLES `procedimentos` WRITE;
 /*!40000 ALTER TABLE `procedimentos` DISABLE KEYS */;
-INSERT INTO `procedimentos` VALUES (1,'Consulta',NULL),(2,'Retorno',NULL),(3,'Acompanhamento',NULL);
+INSERT INTO `procedimentos` VALUES
+(1,'Consulta','Procedimento Padrão da Clínica'),
+(2,'Retorno','Pacientes em Caráter de Retorno'),
+(3,'Acompanhamento','Consulta de Acompanhamento');
 /*!40000 ALTER TABLE `procedimentos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -147,7 +189,7 @@ CREATE TABLE `profissionais` (
   `nome` varchar(255) NOT NULL,
   `crm` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=85220 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -156,7 +198,10 @@ CREATE TABLE `profissionais` (
 
 LOCK TABLES `profissionais` WRITE;
 /*!40000 ALTER TABLE `profissionais` DISABLE KEYS */;
-INSERT INTO `profissionais` VALUES (1,'Pietro',NULL),(2,'Dr. Lucas',NULL);
+INSERT INTO `profissionais` VALUES
+(85217,'Dr. Lucas KNE',NULL),
+(85218,'Dr. Analista Pietro',NULL),
+(85219,'Suporte MedicalChallenge',NULL);
 /*!40000 ALTER TABLE `profissionais` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -173,4 +218,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-08-10  0:06:20
+-- Dump completed on 2022-08-10  9:54:16
